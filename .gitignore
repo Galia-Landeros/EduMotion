@@ -1,0 +1,22 @@
+# Entorno virtual
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Streamlit / logs / datos de sesiones
+.streamlit/
+data/*.jsonl
+data/*.json
+logs/
+*.log
+
+# IDE / SO
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+

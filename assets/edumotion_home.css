@@ -1,0 +1,520 @@
+/* ============ PALETA EDUMOTION ============ */
+:root {
+  --edm-pink: #EFBDEB;
+  --edm-violet-soft: #B68CB8;
+  --edm-violet: #6461A0;
+  --edm-blue-violet: #314CB6;
+  --edm-steel-blue: #0A81D1;
+
+  --edm-cream: #FFF7FD;      /* fondo suave tipo referencia */
+  --edm-text-dark: #25213A;
+}
+
+/* ============ RESET SUAVE ============ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Lexend", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--edm-text-dark);
+  background: var(--edm-cream);
+}
+
+/* Contenedor general centrado */
+.edm-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============ NAVBAR SUPERIOR ============ */
+
+.edm-nav {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 1.1rem 1.5rem 0.3rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.edm-nav-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.edm-nav-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: radial-gradient(circle at 30% 20%, var(--edm-pink), var(--edm-violet-soft));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+}
+
+.edm-nav-brand {
+  font-weight: 700;
+  font-size: 1.12rem;
+}
+
+.edm-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  font-size: 0.92rem;
+}
+
+.edm-nav-link {
+  color: #7B738F;
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 0.15rem;
+}
+
+.edm-nav-link:hover {
+  color: var(--edm-blue-violet);
+}
+
+.edm-nav-link--active {
+  color: var(--edm-blue-violet);
+  font-weight: 600;
+}
+
+.edm-nav-link--active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -0.25rem;
+  width: 100%;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--edm-blue-violet);
+}
+
+/* ============ HERO / CABECERA ============ */
+
+.edm-hero-wrap {
+  flex: 1;
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 1.3rem 1.5rem 3.2rem 1.5rem;
+}
+
+/* fondo beige/gris suave del hero, con nubes abajo */
+.edm-hero {
+  position: relative;
+  background: #F4EDF9;
+  border-radius: 28px 28px 70px 70px;
+  padding: 2.4rem 2.2rem 3.1rem 2.2rem;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.4fr);
+  gap: 1.8rem;
+  box-shadow: 0 26px 70px rgba(100, 97, 160, 0.32);
+}
+
+/* círculos decorativos */
+.edm-hero-circle {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.8;
+}
+
+.edm-hero-circle--pink {
+  width: 70px;
+  height: 70px;
+  background: var(--edm-pink);
+  top: 18px;
+  left: 36px;
+}
+
+.edm-hero-circle--yellow {
+  width: 62px;
+  height: 62px;
+  background: #FFC86B;
+  top: 40px;
+  right: 120px;
+}
+
+.edm-hero-circle--mint {
+  width: 46px;
+  height: 46px;
+  background: #D8FFE8;
+  bottom: 110px;
+  left: 160px;
+}
+
+/* “nube” inferior */
+.edm-hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -30px;
+  height: 80px;
+  background: radial-gradient(circle at 10% 0%, #F4EDF9 45%, transparent 46%) repeat-x;
+  background-size: 120px 70px;
+  opacity: 0.95;
+}
+
+/* Columna izquierda (texto) */
+.edm-hero-left {
+  position: relative;
+  z-index: 1;
+}
+
+/* badge */
+.edm-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 0.9rem;
+  border-radius: 999px;
+  background: #FFFFFF;
+  color: var(--edm-violet);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  margin-bottom: 0.8rem;
+}
+
+/* título principal */
+.edm-hero-title {
+  font-size: 2.6rem;
+  line-height: 1.05;
+  font-weight: 800;
+  color: #FFFFFF;
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  margin: 0 0 0.45rem 0;
+}
+
+.edm-hero-title span {
+  color: #FFE6FF;
+}
+
+/* subtítulo */
+.edm-hero-subtitle {
+  font-size: 0.98rem;
+  color: #2F2844;
+  max-width: 370px;
+  margin-bottom: 1.1rem;
+}
+
+/* botón principal */
+.edm-hero-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55rem 1.5rem;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, var(--edm-steel-blue), var(--edm-blue-violet));
+  color: #FFFFFF;
+  font-size: 0.95rem;
+  font-weight: 600;
+  box-shadow: 0 12px 30px rgba(49, 76, 182, 0.55);
+  cursor: pointer;
+  margin-bottom: 0.4rem;
+}
+
+.edm-hero-cta:hover {
+  filter: brightness(1.05);
+}
+
+.edm-hero-note {
+  font-size: 0.78rem;
+  color: #4A3D63;
+}
+
+/* Columna derecha (foto + personaje) */
+.edm-hero-right {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* círculo principal de foto */
+.edm-hero-photo {
+  width: 270px;
+  height: 270px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  padding: 10px;
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.18);
+  position: relative;
+}
+
+.edm-hero-photo-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-position: center;
+  background-size: cover;
+  background-image: url("https://via.placeholder.com/400x400.png?text=Clase+gestual");
+}
+
+/* personaje EduMotion (por ahora un bloque placeholder) */
+.edm-hero-mascot {
+  position: absolute;
+  right: -16px;
+  bottom: -4px;
+  width: 110px;
+  height: 150px;
+  background: none;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+/* demo: un rectángulo redondeado representando al personaje */
+.edm-hero-mascot-body {
+  width: 80px;
+  height: 120px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, var(--edm-steel-blue), var(--edm-blue-violet));
+  position: relative;
+}
+
+.edm-hero-mascot-body::before {
+  content: "";
+  position: absolute;
+  top: -32px;
+  left: 18px;
+  width: 48px;
+  height: 36px;
+  border-radius: 26px;
+  background: #FFFFFF;
+}
+
+/* ============ SECCIÓN BAJA (features) ============ */
+
+.edm-under-hero {
+  max-width: 1120px;
+  margin: -1.1rem auto 3.5rem auto;
+  padding: 0 1.5rem;
+}
+
+.edm-under-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.4rem;
+}
+
+.edm-feature-card {
+  background: #FFFFFF;
+  border-radius: 18px;
+  padding: 1rem 1.1rem;
+  box-shadow: 0 16px 40px rgba(100, 97, 160, 0.16);
+  font-size: 0.9rem;
+}
+
+.edm-feature-icon {
+  font-size: 1.4rem;
+  margin-bottom: 0.4rem;
+}
+
+.edm-feature-title {
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.edm-feature-text {
+  color: #6B657F;
+  font-size: 0.85rem;
+}
+
+/* ============ RESPONSIVE ============ */
+
+@media (max-width: 900px) {
+  .edm-hero {
+    grid-template-columns: 1fr;
+    padding: 2rem 1.6rem 2.5rem 1.6rem;
+    border-radius: 28px 28px 40px 40px;
+  }
+
+  .edm-hero-right {
+    order: -1;
+    margin-bottom: 1rem;
+  }
+
+  .edm-under-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .edm-nav {
+    padding-inline: 1rem;
+  }
+
+  .edm-hero-wrap {
+    padding-inline: 1rem;
+  }
+
+  .edm-under-hero {
+    padding-inline: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .edm-under-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .edm-hero-title {
+    font-size: 2.1rem;
+  }
+}
+
+/* ===== TOPBAR / NAV PRINCIPAL ===== */
+
+.edm-topbar {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.1rem 1.5rem 0.4rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.edm-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.edm-topbar-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  background: radial-gradient(circle at 30% 20%, #EFBDEB, #B68CB8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+}
+
+.edm-topbar-brand {
+  font-weight: 700;
+  font-size: 1.08rem;
+  color: #25213A;
+}
+
+.edm-topbar-nav {
+  display: flex;
+  gap: 1.4rem;
+  font-size: 0.95rem;
+}
+
+/* contenedor que envuelve cada st.button del nav */
+.edm-nav-btn-wrapper button {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  color: #7B738F !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  font-weight: 500;
+}
+
+.edm-nav-btn-wrapper button:hover {
+  color: #314CB6 !important;
+  cursor: pointer;
+}
+
+/* estado activo (página actual) */
+.edm-nav-btn-wrapper--active button {
+  color: #314CB6 !important;
+  font-weight: 600;
+  position: relative;
+}
+
+.edm-nav-btn-wrapper--active button::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -0.25rem;
+  width: 100%;
+  height: 2px;
+  border-radius: 999px;
+  background: #314CB6;
+}
+
+/* RESPONSIVE: en pantallas estrechas que se acomode en columna */
+@media (max-width: 768px) {
+  .edm-topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+}
+/* ===== NAV SECUNDARIA (debajo del hero) ===== */
+
+.edm-nav-strip {
+  max-width: 1100px;
+  margin: -32px auto 1.2rem auto;
+  padding: 0 1.5rem;
+}
+
+.edm-nav-strip-inner {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.5rem;
+}
+
+.edm-nav-btn-wrapper button {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  color: #7B738F !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.edm-nav-btn-wrapper button:hover {
+  color: #314CB6 !important;
+  cursor: pointer;
+}
+
+.edm-nav-btn-wrapper-active button {
+  color: #314CB6 !important;
+  font-weight: 600;
+  position: relative;
+}
+
+.edm-nav-btn-wrapper-active button::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -0.25rem;
+  width: 100%;
+  height: 2px;
+  border-radius: 999px;
+  background: #314CB6;
+}
+
+@media (max-width: 768px) {
+  .edm-nav-strip {
+    margin-top: 0.4rem;
+    padding: 0 1rem;
+  }
+  .edm-nav-strip-inner {
+    justify-content: center;
+    gap: 1rem;
+  }
+}
+

@@ -1,17 +1,16 @@
 # app/camera.py
 import cv2 as cv
 import mediapipe as mp
-import time, sys
+import time
 from gestures import classify, GestureStabilizer
 from input_mapper import dispatch
-from logger import log_event  
+from logger import log_event
 
 mp_hands = mp.solutions.hands
 mp_draw = mp.solutions.drawing_utils
 
-MODE = "slides"
-if len(sys.argv) > 1:
-    MODE = sys.argv[1]  # "slides" | "video" | "dino"
+# ==== SOLO MODO PRESENTACIÓN ====
+MODE = "slides"   # fijo
 
 def run():
     log_event("start", MODE)
@@ -29,12 +28,16 @@ def run():
     cap.set(cv.CAP_PROP_FRAME_WIDTH, 640)
     cap.set(cv.CAP_PROP_FRAME_HEIGHT, 480)
 
-    prev = 0
+    prev = 0.0
+    prev_stable = None
+    last_action_label = ""
+    last_action_time = 0.0
+
     try:
         while True:
             ok, frame = cap.read()
             if not ok:
-                log_event("error", MODE, extra={"note":"camera_read_failed"})
+                log_event("error", MODE, extra={"note": "camera_read_failed"})
                 break
 
             frame = cv.flip(frame, 1)
@@ -48,30 +51,54 @@ def run():
                 hand = res.multi_hand_landmarks[0]
                 mp_draw.draw_landmarks(frame, hand, mp_hands.HAND_CONNECTIONS)
                 lm = hand.landmark
-                raw_label = classify(lm, pinch_thr=0.05)
+
+                # Puedes ajustar pinch_thr si cuesta la pinza (0.04–0.05)
+                raw_label = classify(lm, pinch_thr=0.04)
                 stable_label = stab.update(raw_label)
-                if stable_label != "NONE":
+
+                # ---- SOLO ACCIÓN EN TRANSICIÓN DE GESTO ----
+                if stable_label != "NONE" and stable_label != prev_stable:
                     dispatch(stable_label, MODE)
                     log_event("gesture", MODE, gesture=stable_label)
 
+                    # texto grande en pantalla para feedback
+                    last_action_label = {
+                        "OPEN": "NEXT",
+                        "FIST": "BACK",
+                        "PINCH": "CLICK"
+                    }.get(stable_label, stable_label)
+                    last_action_time = time.time()
+
+                prev_stable = stable_label
+            else:
+                stable_label = "NONE"
+                raw_label = "NONE"
+                prev_stable = None
+
             now = time.time()
-            fps = 1.0 / (now - prev) if prev else 0
+            fps = 1.0 / (now - prev) if prev else 0.0
             prev = now
 
             cv.putText(frame, f"MODE: {MODE}", (10, 25),
-                       cv.FONT_HERSHEY_SIMPLEX, 0.6, (0,255,0), 2)
+                       cv.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
             cv.putText(frame, f"RAW: {raw_label}", (10, 50),
-                       cv.FONT_HERSHEY_SIMPLEX, 0.6, (255,255,0), 2)
+                       cv.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 0), 2)
             cv.putText(frame, f"STABLE: {stable_label}", (10, 75),
-                       cv.FONT_HERSHEY_SIMPLEX, 0.6, (0,255,255), 2)
+                       cv.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
 
-            cv.imshow("EduMotion - Gestures", frame)
-            if cv.waitKey(1) & 0xFF == 27:
+            # ---- OVERLAY CUANDO HAY ACCIÓN ----
+            if last_action_label and (time.time() - last_action_time) < 0.5:
+                cv.putText(frame, last_action_label, (200, 240),
+                           cv.FONT_HERSHEY_SIMPLEX, 1.5, (0, 0, 255), 4)
+
+            cv.imshow("EduMotion - Presentación", frame)
+            if cv.waitKey(1) & 0xFF == 27:  # ESC para salir
                 break
     finally:
         cap.release()
         cv.destroyAllWindows()
         log_event("stop", MODE)
+
 
 if __name__ == "__main__":
     run()

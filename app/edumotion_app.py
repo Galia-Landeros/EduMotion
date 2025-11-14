@@ -15,187 +15,29 @@ st.set_page_config(
     page_icon="🧩",
     layout="wide",
 )
-if "proc" not in st.session_state:
-    st.session_state.proc = None
+
 # === Cargar CSS de la nueva homepage ===
 css_path = Path(__file__).parent.parent / "assets" / "edumotion_home.css"
 with open(css_path, "r", encoding="utf-8") as f:
     css = f.read()
 
+# 1) CSS para TODO lo que pinta Streamlit (barra de navegación, cards, etc.)
 st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
+
+
 # ===== SESSION NAVIGATION =====
 if "page" not in st.session_state:
     st.session_state.page = "inicio"
 
-# === HTML de la homepage estilo landing ===
-homepage_html = """
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="utf-8" />
-  <style>
-  CSS_PLACEHOLDER
-  </style>
-</head>
-<body>
-  <div class="edm-page">
-
-    <header class="edm-nav">
-      <div class="edm-nav-left">
-        <div class="edm-nav-logo">🧩</div>
-        <div class="edm-nav-brand">EduMotion</div>
-      </div>
-      <nav class="edm-nav-right">
-        <span class="edm-nav-link edm-nav-link--active" data-target="inicio">Inicio</span>
-        <span class="edm-nav-link" data-target="control">Control</span>
-        <span class="edm-nav-link" data-target="metricas">Métricas</span>
-      </nav>
-    </header>
-
-    <main class="edm-hero-wrap">
-      <section class="edm-hero">
-        <div class="edm-hero-circle edm-hero-circle--pink"></div>
-        <div class="edm-hero-circle edm-hero-circle--yellow"></div>
-        <div class="edm-hero-circle edm-hero-circle--mint"></div>
-
-        <div class="edm-hero-left">
-          <div class="edm-hero-badge">
-            <span>Nuevo</span>
-            <span>Motor gestual educativo</span>
-          </div>
-
-          <h1 class="edm-hero-title">
-            Aprendizaje con<br />
-            <span>movimiento</span> y sin contacto
-          </h1>
-
-          <p class="edm-hero-subtitle">
-            EduMotion permite controlar presentaciones, videos y minijuegos con gestos
-            de la mano. Pensado para la inclusión de niñas y niños con TEA
-            o dificultades motrices.
-          </p>
-
-          <button class="edm-hero-cta">
-            Probar modo presentación
-          </button>
-
-          <p class="edm-hero-note">
-            Compatible con PowerPoint y cualquier material que responda a teclas.
-          </p>
-        </div>
-
-        <div class="edm-hero-right">
-          <div class="edm-hero-photo">
-            <div class="edm-hero-photo-inner"></div>
-            <div class="edm-hero-mascot">
-              <div class="edm-hero-mascot-body"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <section class="edm-under-hero">
-      <div class="edm-under-grid">
-        <article class="edm-feature-card">
-          <div class="edm-feature-icon">🧒</div>
-          <div class="edm-feature-title">Diseñado para TEA</div>
-          <p class="edm-feature-text">
-            Interacciones simples, sin sobrecarga sensorial y con control gestual claro.
-          </p>
-        </article>
-
-        <article class="edm-feature-card">
-          <div class="edm-feature-icon">🖥️</div>
-          <div class="edm-feature-title">Control universal</div>
-          <p class="edm-feature-text">
-            Envía teclas a cualquier app: presentaciones, videos, juegos educativos.
-          </p>
-        </article>
-
-        <article class="edm-feature-card">
-          <div class="edm-feature-icon">📊</div>
-          <div class="edm-feature-title">Métricas de progreso</div>
-          <p class="edm-feature-text">
-            Registra sesiones, gestos y actividades para evaluar avances.
-          </p>
-        </article>
-
-        <article class="edm-feature-card">
-          <div class="edm-feature-icon">⚙️</div>
-          <div class="edm-feature-title">Hecho en Python</div>
-          <p class="edm-feature-text">
-            OpenCV, MediaPipe y Streamlit en un solo motor fácil de desplegar.
-          </p>
-        </article>
-      </div>
-    </section>
-
-    <script>
-    document.addEventListener("DOMContentLoaded", function () {{
-      const navLinks = document.querySelectorAll('.edm-nav-right .edm-nav-link');
-      navLinks.forEach(function (link) {{
-        link.addEventListener("click", function () {{
-          const target = link.getAttribute("data-target");
-
-          // Actualiza el estilo activo en la barra rosa
-          navLinks.forEach(function(l) {{ l.classList.remove("edm-nav-link--active"); }});
-          link.classList.add("edm-nav-link--active");
-
-          // Buscar los tabs de Streamlit en la página padre
-          const parentDoc = window.parent.document;
-          const tabs = parentDoc.querySelectorAll('[data-testid="stTabs"] button');
-
-          if (target === "control" && tabs.length > 0) {{
-            tabs[0].click();   // primer tab -> Control de presentación
-          }}
-          if (target === "metricas" && tabs.length > 1) {{
-            tabs[1].click();   // segundo tab -> Métricas
-          }}
-          if (target === "inicio") {{
-            window.scrollTo({{ top: 0, behavior: "smooth" }});
-          }}
-        }});
-      }});
-    }});
-    </script>
-
-  </div>
-</body>
-</html>
-"""
-homepage_html = homepage_html.replace("CSS_PLACEHOLDER", css)
-# PINTAR LA HOMEPAGE
-components.html(homepage_html, height=720, scrolling=False)
-
-#tab_control, tab_metrics, tab_about = st.tabs(["🎮 Control de presentación", "📊 Métricas", "ℹ️ Acerca de"])
-if "page" not in st.session_state:
-    st.session_state.page = "inicio"
+if "proc" not in st.session_state:
+    st.session_state.proc = None
 
 def nav_button(label: str, page_name: str, key: str):
-    """Botón de navegación que marca activo según st.session_state.page."""
     active_class = "edm-nav-btn-wrapper-active" if st.session_state.page == page_name else "edm-nav-btn-wrapper"
     st.markdown(f'<div class="{active_class}">', unsafe_allow_html=True)
     if st.button(label, key=key):
         st.session_state.page = page_name
     st.markdown("</div>", unsafe_allow_html=True)
-
-
-# ===== BARRA DE NAVEGACIÓN DE PÁGINA (debajo del hero) =====
-st.markdown('<div class="edm-nav-strip"><div class="edm-nav-strip-inner">', unsafe_allow_html=True)
-col_inicio, col_control, col_metricas = st.columns(3)
-
-with col_inicio:
-    nav_button("Inicio", "inicio", "nav_inicio")
-
-with col_control:
-    nav_button("Control", "control", "nav_control")
-
-with col_metricas:
-    nav_button("Métricas", "metricas", "nav_metricas")
-
-st.markdown('</div></div>', unsafe_allow_html=True)
-
 
 def render_control_view():
     # ===== TÍTULO DE SECCIÓN =====
@@ -431,6 +273,23 @@ def render_metrics_view():
         )
 
         st.markdown("</div></section>", unsafe_allow_html=True)
+
+
+# ===== BARRA DE NAVEGACIÓN DE PÁGINA (debajo del hero) =====
+st.markdown('<div class="edm-nav-strip"><div class="edm-nav-strip-inner">', unsafe_allow_html=True)
+col_inicio, col_control, col_metricas = st.columns(3)
+
+with col_inicio:
+    nav_button("Inicio", "inicio", "nav_inicio")
+
+with col_control:
+    nav_button("Control", "control", "nav_control")
+
+with col_metricas:
+    nav_button("Métricas", "metricas", "nav_metricas")
+
+st.markdown('</div></div>', unsafe_allow_html=True)
+
 
 #Routers
 # ===== ROUTER DE PÁGINAS =====

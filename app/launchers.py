@@ -1,11 +1,11 @@
-# app/launchers.py
+
 import os, time, subprocess, sys
 
 def start_camera_slides():
     args = [sys.executable, "app/camera.py"]
 
      
-    """Lanza el motor gestual SIEMPRE en modo presentación."""
+    #Lanza el motor siempre en modo presentación
     return subprocess.Popen([sys.executable, "app/camera.py"])
 
 def launch_ppt_via_com(ppt_path: str) -> bool:

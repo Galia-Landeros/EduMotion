@@ -1,4 +1,3 @@
-# app/camera.py
 import cv2 as cv
 import mediapipe as mp
 import time
@@ -9,8 +8,8 @@ from logger import log_event
 mp_hands = mp.solutions.hands
 mp_draw = mp.solutions.drawing_utils
 
-# ==== SOLO MODO PRESENTACIÓN ====
-MODE = "slides"   # fijo
+
+MODE = "slides"   
 
 def run():
     log_event("start", MODE)
@@ -37,7 +36,7 @@ def run():
         while True:
             ok, frame = cap.read()
             if not ok:
-                log_event("error", MODE, extra={"note": "camera_read_failed"})
+                log_event("error", MODE, extra={"note": "camara no detecta imagen"})
                 break
 
             frame = cv.flip(frame, 1)
@@ -52,16 +51,15 @@ def run():
                 mp_draw.draw_landmarks(frame, hand, mp_hands.HAND_CONNECTIONS)
                 lm = hand.landmark
 
-                # Puedes ajustar pinch_thr si cuesta la pinza (0.04–0.05)
+                
                 raw_label = classify(lm, pinch_thr=0.04)
                 stable_label = stab.update(raw_label)
-
-                # ---- SOLO ACCIÓN EN TRANSICIÓN DE GESTO ----
+                
                 if stable_label != "NONE" and stable_label != prev_stable:
                     dispatch(stable_label, MODE)
                     log_event("gesture", MODE, gesture=stable_label)
 
-                    # texto grande en pantalla para feedback
+                    
                     last_action_label = {
                         "OPEN": "NEXT",
                         "FIST": "BACK",
@@ -86,7 +84,7 @@ def run():
             cv.putText(frame, f"STABLE: {stable_label}", (10, 75),
                        cv.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
 
-            # ---- OVERLAY CUANDO HAY ACCIÓN ----
+            #Overlay
             if last_action_label and (time.time() - last_action_time) < 0.5:
                 cv.putText(frame, last_action_label, (200, 240),
                            cv.FONT_HERSHEY_SIMPLEX, 1.5, (0, 0, 255), 4)

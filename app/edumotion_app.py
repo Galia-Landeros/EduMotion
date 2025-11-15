@@ -1,5 +1,3 @@
-# app/edumotion_app.py (solo parte del tab de control)
-
 import streamlit as st
 import os, json
 import pandas as pd
@@ -9,23 +7,22 @@ from pathlib import Path
 from launchers import start_camera_slides, launch_ppt_via_com, launch_ppt_fallback
 from logger import LOG_PATH
 
-# Config de la página
+#Config de la página
 st.set_page_config(
     page_title="EduMotion - Presentaciones didácticas",
     page_icon="🧩",
     layout="wide",
 )
 
-# === Cargar CSS de la nueva homepage ===
+#Cargar el CSS
 css_path = Path(__file__).parent.parent / "assets" / "edumotion_home.css"
 with open(css_path, "r", encoding="utf-8") as f:
     css = f.read()
 
-# 1) CSS para TODO lo que pinta Streamlit (barra de navegación, cards, etc.)
+
 st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
 
 
-# ===== SESSION NAVIGATION =====
 if "page" not in st.session_state:
     st.session_state.page = "inicio"
 
@@ -199,7 +196,7 @@ def render_control_view():
     )
 
 def render_metrics_view():
-    # ===== TITULAR DE LA SECCIÓN =====
+    
     st.markdown(
         """
         <section class="edm-section">
@@ -213,7 +210,7 @@ def render_metrics_view():
         unsafe_allow_html=True,
     )
 
-    # ===== BACKEND: CARGA DE LOGS =====
+   
     def load_log_rows():
         if not os.path.exists(LOG_PATH):
             return []
@@ -240,7 +237,7 @@ def render_metrics_view():
         total_sessions = (df["event"] == "start").sum()
         total_gestures = (df["event"] == "gesture").sum()
 
-        # ===== FILA DE KPIs =====
+        
         st.markdown('<div class="edm-kpi-row">', unsafe_allow_html=True)
         c1, c2 = st.columns(2)
 
@@ -252,7 +249,7 @@ def render_metrics_view():
 
         st.markdown("</div>", unsafe_allow_html=True)
 
-        # ===== CARD DE EVENTOS RECIENTES =====
+        
         st.markdown(
             """
             <section class="edm-section">
@@ -275,32 +272,150 @@ def render_metrics_view():
         st.markdown("</div></section>", unsafe_allow_html=True)
 
 
-# ===== BARRA DE NAVEGACIÓN DE PÁGINA (debajo del hero) =====
-st.markdown('<div class="edm-nav-strip"><div class="edm-nav-strip-inner">', unsafe_allow_html=True)
-col_inicio, col_control, col_metricas = st.columns(3)
 
-with col_inicio:
-    nav_button("Inicio", "inicio", "nav_inicio")
+st.markdown('<div class="edm-topbar">', unsafe_allow_html=True)
 
-with col_control:
-    nav_button("Control", "control", "nav_control")
+brand_col, nav_col = st.columns([0.35, 0.65])
 
-with col_metricas:
-    nav_button("Métricas", "metricas", "nav_metricas")
 
-st.markdown('</div></div>', unsafe_allow_html=True)
+with brand_col:
+    logo_col, text_col = st.columns([0.25, 0.75])
+
+    with logo_col:
+        
+        st.image("assets/logo_edumotion_mascota.png", width=52)
+
+    with text_col:
+        st.markdown(
+            '<div class="edm-brand-name">EduMotion</div>',
+            unsafe_allow_html=True,
+        )
+
+
+with nav_col:
+    col_inicio, col_control, col_metricas, _ = st.columns([0.2, 0.2, 0.2, 0.4])
+
+    with col_inicio:
+        nav_button("Inicio", "inicio", "nav_inicio")
+
+    with col_control:
+        nav_button("Control", "control", "nav_control")
+
+    with col_metricas:
+        nav_button("Métricas", "metricas", "nav_metricas")
+
+st.markdown('</div>', unsafe_allow_html=True)
 
 
 #Routers
-# ===== ROUTER DE PÁGINAS =====
+
 if st.session_state.page == "inicio":
-    # solo el hero; ya se pintó con components.html arriba
-    pass  # si después quieres texto o cards extras de inicio, van aquí
+    # ===== LANDING PAGE: HERO + CARDS =====
+    st.markdown('<div class="edm-landing">', unsafe_allow_html=True)
+
+    # --- HERO ---
+    st.markdown('<div class="edm-landing-hero">', unsafe_allow_html=True)
+    col_left, col_right = st.columns([2, 1.1])
+
+    with col_left:
+        st.markdown(
+            """
+            <div class="edm-hero-badge">
+              <span>Nuevo motor gestual educativo</span>
+            </div>
+            <h1 class="edm-hero-title">
+              Aprendizaje con<br />
+              <span>movimiento</span> y sin contacto
+            </h1>
+            <p class="edm-hero-subtitle">
+              EduMotion convierte tus presentaciones, videos y juegos en experiencias
+              inclusivas que responden a gestos de la mano, especialmente pensadas
+              para niñas y niños con TEA o dificultades motrices.
+            </p>
+            """,
+            unsafe_allow_html=True,
+        )
+
+        st.markdown('<div class="edm-hero-cta">', unsafe_allow_html=True)
+        if st.button("Probar modo presentación", key="hero_to_control"):
+            st.session_state.page = "control"
+            st.experimental_rerun()
+        st.markdown("</div>", unsafe_allow_html=True)
+
+        st.markdown(
+            """
+            <p class="edm-hero-note">
+              Compatible con PowerPoint y cualquier material que responda a teclas
+              (Flechas, Enter, espacio, etc.).
+            </p>
+            """,
+            unsafe_allow_html=True,
+        )
+
+    with col_right:
+        st.markdown(
+            """
+            <div class="edm-hero-figure">
+              <div class="edm-hero-figure-circle">
+                <div class="edm-hero-figure-badge"></div>
+              </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+    st.markdown("</div>", unsafe_allow_html=True)  # cierra edm-landing-hero
+
+    # --- CARDS BAJO EL HERO ---
+    st.markdown(
+        """
+        <section class="edm-landing-cards">
+          <article class="edm-landing-card">
+            <div class="edm-landing-card-icon">🧒</div>
+            <h3>Diseñado para TEA</h3>
+            <p>
+              Gestos claros, sin sobrecarga visual y pensados para favorecer 
+              la autonomía de niñas y niños con diversidad funcional.
+            </p>
+          </article>
+
+          <article class="edm-landing-card">
+            <div class="edm-landing-card-icon">🖥️</div>
+            <h3>Control universal</h3>
+            <p>
+              EduMotion envía teclas a cualquier app: presentaciones, 
+              videos, juegos educativos o actividades interactivas.
+            </p>
+          </article>
+
+          <article class="edm-landing-card">
+            <div class="edm-landing-card-icon">📊</div>
+            <h3>Métricas de progreso</h3>
+            <p>
+              Registra sesiones, gestos y actividades para analizar el 
+              avance del grupo o de cada estudiante.
+            </p>
+          </article>
+
+          <article class="edm-landing-card">
+            <div class="edm-landing-card-icon">⚙️</div>
+            <h3>Hecho en Python</h3>
+            <p>
+              OpenCV, MediaPipe y Streamlit integrados en un mismo motor, 
+              fácil de instalar, extender y adaptar a tu aula.
+            </p>
+          </article>
+        </section>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
 elif st.session_state.page == "control":
     render_control_view()
 
 elif st.session_state.page == "metricas":
     render_metrics_view()
+
 
 

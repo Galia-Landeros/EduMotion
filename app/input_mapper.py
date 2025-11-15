@@ -1,11 +1,10 @@
-# app/input_mapper.py
 import time
 from pynput.keyboard import Controller, Key
 
 kb = Controller()
 _last = 0
 
-def _cooldown(sec=0.8):  # antes 0.25
+def _cooldown(sec=0.8):  
     global _last
     now = time.time()
     if now - _last >= sec:
@@ -14,12 +13,7 @@ def _cooldown(sec=0.8):  # antes 0.25
     return False
 
 def dispatch(gesture: str, mode: str = "slides"):
-    """
-    Gestos:
-      - OPEN  -> Right (siguiente diapositiva)
-      - FIST  -> Left (anterior)
-      - PINCH -> Enter (animaciones/hipervínculos)
-    """
+    
     if not _cooldown():
         return
 

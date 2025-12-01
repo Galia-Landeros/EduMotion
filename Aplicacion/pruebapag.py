@@ -655,7 +655,7 @@ with tab1:
         if st.button("**Activar Poderes**", key="start", use_container_width=True):
             if st.session_state.proc is None:
                 st.session_state.proc = subprocess.Popen(
-                    [sys.executable, "app/camera.py", mode_arg]
+                    [sys.executable, "Aplicacion/camera.py", mode_arg]
                 )
                 st.success(f"¡Magia activada! Modo: {mode}")
                 st.balloons()

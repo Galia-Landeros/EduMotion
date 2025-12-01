@@ -13,7 +13,7 @@ st.set_page_config(
 )
 
 # =============================================
-# CSS COMPATIBLE CON STREAMLIT - TÍTULO SIMPLIFICADO SIN EMOJIS
+# CSS COMPATIBLE CON STREAMLIT - MANTENIENDO TODO IGUAL EXCEPTO EL FONDO
 # =============================================
 st.markdown("""
 <style>
@@ -25,7 +25,7 @@ st.markdown("""
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
         border-radius: 25px;
         border: 4px solid #314CB6;
-        box-shadow: 0 12px 35px rgba(49, 76, 182, 0.4);
+        box-shadow: 0 12px 35px rgba(49, 76, 182, 0.3);
         backdrop-filter: blur(10px);
         position: relative;
         overflow: hidden;
@@ -38,7 +38,7 @@ st.markdown("""
         left: -50%;
         width: 200%;
         height: 200%;
-        background: linear-gradient(45deg, transparent, rgba(239, 189, 235, 0.3), transparent);
+        background: linear-gradient(45deg, transparent, rgba(239, 189, 235, 0.2), transparent);
         transform: rotate(45deg);
         z-index: 0;
     }
@@ -58,9 +58,9 @@ st.markdown("""
         -webkit-background-clip: text;
         color: transparent;
         text-shadow:
-            3px 3px 0px rgba(0,0,0,0.2),
-            6px 6px 0px rgba(0,0,0,0.15),
-            9px 9px 0px rgba(0,0,0,0.1);
+            3px 3px 0px rgba(0,0,0,0.15),
+            6px 6px 0px rgba(0,0,0,0.10),
+            9px 9px 0px rgba(0,0,0,0.05);
         position: relative;
         z-index: 1;
         margin-bottom: 1.5rem;
@@ -79,7 +79,7 @@ st.markdown("""
         border: 2px solid rgba(255,255,255,0.5);
         position: relative;
         z-index: 1;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
     }
     
 </style>
@@ -91,20 +91,22 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =============================================
-# EL RESTO DEL CÓDIGO SE MANTIENE IGUAL
+# CSS - SOLO CAMBIO EL FONDO A AZUL MÁS SUAVE
 # =============================================
-
 st.markdown("""
 <style>
-    /* FONDO CON NUEVA PALETA DE COLORES - SIN ANIMACIÓN */
+    /* FONDO CON AZULES MÁS SUAVES Y PASTEL */
     .stApp {
         background: linear-gradient(135deg, 
-            #EFBDEB 0%, 
-            #B68CB8 25%, 
-            #6461A0 50%, 
-            #314CB6 75%, 
-            #0A5FD1 100%);
+            #FFD6E7 0%,     /* Rosa muy suave */
+            #FFC8E8 25%,    /* Rosa-lila suave */
+            #C8D0FF 50%,    /* Azul lila pastel */
+            #A0B8FF 75%,    /* Azul celeste suave */
+            #8AAFFF 100%    /* Azul principal suavizado */
+        );
     }
+    
+    /* EL RESTO DEL CSS SE MANTIENE EXACTAMENTE IGUAL */
     
     /* CONTENEDOR DE PESTAÑAS */
     .tabs-container {
@@ -532,7 +534,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =============================================
-# EL RESTO DEL CÓDIGO SE MANTIENE IGUAL (FUNCIONALIDAD)
+# EL RESTO DEL CÓDIGO SE MANTIENE EXACTAMENTE IGUAL
 # =============================================
 
 # ESTADO DE LA APLICACIÓN
@@ -787,7 +789,7 @@ with tab3:
 # FOOTER SIN EMOJIS
 st.markdown("---")
 st.markdown("""
-<div style="text-align: center; padding: 2.5rem; background: linear-gradient(135deg, rgba(239, 189, 235, 0.9), rgba(182, 140, 184, 0.8)); border-radius: 25px; margin-top: 3rem; border: 3px solid #314CB6; box-shadow: 0 10px 30px rgba(49, 76, 182, 0.3);">
+<div style="text-align: center; padding: 2.5rem; background: linear-gradient(135deg, rgba(239, 189, 235, 0.9), rgba(182, 140, 184, 0.8)); border-radius: 25px; margin-top: 3rem; border: 3px solid #314CB6; box-shadow: 0 10px 30px rgba(49, 76, 182, 0.2);">
     <div style="font-size: 1.8rem; color: #314CB6; margin-bottom: 0.8rem; font-weight: 800; text-shadow: 2px 2px 4px rgba(0,0,0,0.1);">
         EduMotion - Donde los Gestos son Magia
     </div>

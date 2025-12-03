@@ -2,6 +2,7 @@ import streamlit as st
 import json, os, subprocess, sys
 import pandas as pd
 
+BASE_DIR = os.path.dirname(__file__)
 # =============================================
 # CONFIGURACIÓN PRINCIPAL
 # =============================================
@@ -652,17 +653,21 @@ with tab1:
     """, unsafe_allow_html=True)
     
     col_btn1, col_btn2, col_btn3 = st.columns(3)
-    
+
     with col_btn1:
         if st.button("**Activar Poderes**", key="start", use_container_width=True):
             if st.session_state.proc is None:
+                # ruta absoluta a camera.py dentro de la carpeta app
+                camera_path = os.path.join(BASE_DIR, "camera.py")
                 st.session_state.proc = subprocess.Popen(
-                    [sys.executable, "Aplicacion/camera.py", mode_arg]
-                )
-                st.success(f"¡Magia activada! Modo: {mode}")
-                st.balloons()
-            else:
-                st.info("¡Tus poderes ya están activos!")
+                [sys.executable, camera_path, mode_arg]
+            )
+            st.success(f"¡Magia activada! Modo: {mode}")
+            st.balloons()
+        else:
+            st.info("¡Tus poderes ya están activos!")
+           
+    
     
     with col_btn2:
         if st.button("**Pausar Magia**", key="stop", use_container_width=True):
